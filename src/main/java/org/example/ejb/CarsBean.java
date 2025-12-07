@@ -7,8 +7,10 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.example.parkinglot.common.CarDto;
 import org.example.parkinglot.entities.Car;
+import org.example.parkinglot.entities.Users;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -48,4 +50,58 @@ public class CarsBean {
 
         return carDtos;
     }
+    public void createCar(String licensePlate, String parkingSpot, Long userId) {
+        LOG.info("CreateCar");
+        Car car = new Car();
+        car.setLicensePlate(licensePlate);
+        car.setParkingSpot(parkingSpot);
+        Users user=entityManager.find(Users.class, userId);
+        user.getCars().add(car);
+        car.setOwner(user);
+        entityManager.persist(car);
+
+    }
+    public CarDto findById(Long carId) {
+        LOG.info("findById: " + carId);
+
+        try {
+            Car car = entityManager.find(Car.class, carId);
+            if (car == null) {
+                return null; // or throw exception if you prefer
+            }
+
+            Long id = car.getId();
+            String licensePlate = car.getLicensePlate();
+            String parkingSpot = car.getParkingSpot();
+            String ownerName = car.getOwner().getUsername();
+
+            return new CarDto(id, licensePlate, parkingSpot, ownerName);
+
+        } catch (Exception ex) {
+            throw new EJBException(ex);
+        }
+    }
+    public void updateCar(Long carId, String licensePlate, String parkingSpot, Long userId) {
+        LOG.info("updateCar");
+
+        Car car = entityManager.find(Car.class, carId);
+        car.setLicensePlate(licensePlate);
+        car.setParkingSpot(parkingSpot);
+
+
+        Users oldUser = car.getOwner();
+        oldUser.getCars().remove(car);
+        Users user = entityManager.find(Users.class, userId);
+        user.getCars().add(car);
+        car.setOwner(user);
+    }
+    public void deleteCarsByIds(Collection<Long> carIds) {
+        LOG.info("deleteCarsByIds");
+        for(Long carId : carIds) {
+            Car car = entityManager.find(Car.class, carId);
+            entityManager.remove(car);
+        }
+    }
+
+
 }
