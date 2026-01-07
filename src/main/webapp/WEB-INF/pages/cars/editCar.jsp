@@ -38,6 +38,7 @@
                 <div class="invalid-feedback">
                     Owner is required.
                 </div>
+                <input type="hidden" name="car_id" value="${car.id}" />
             </div>
         </div>
 
@@ -47,7 +48,7 @@
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </div>
-        <input type="hidden" name="car_id" value="${car.id}"/>
+
     </form>
 
     <script src="checkout.js" class="astro-vvvwv3sm"></script>

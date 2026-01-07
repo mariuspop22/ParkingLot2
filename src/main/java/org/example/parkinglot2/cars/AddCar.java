@@ -1,7 +1,9 @@
-package org.example.parkinglot2;
+package org.example.parkinglot2.cars;
 
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.HttpConstraint;
+import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +14,7 @@ import org.example.parkinglot.common.UserDto;
 
 import java.io.IOException;
 import java.util.List;
-
+@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"WRITE_CARS"}))
 @WebServlet(name = "AddCar", value = "/AddCar")
 public class AddCar extends HttpServlet {
     @Inject
@@ -25,7 +27,7 @@ public class AddCar extends HttpServlet {
             throws ServletException, IOException {
 List<UserDto> users=usersBean.findAllUsers();
 request.setAttribute("users", users);
-        request.getRequestDispatcher("/WEB-INF/pages/addCar.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pages/cars/addCar.jsp").forward(request, response);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
