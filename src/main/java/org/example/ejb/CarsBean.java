@@ -9,9 +9,11 @@ import org.example.parkinglot.common.CarDto;
 import org.example.parkinglot.common.CarPhotoDto;
 import org.example.parkinglot.entities.Car;
 import org.example.parkinglot.entities.CarPhoto;
+import org.example.parkinglot.entities.UserGroup;
 import org.example.parkinglot.entities.Users;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
@@ -132,6 +134,27 @@ public class CarsBean {
     public int get_number_of_free_parkingspots(int number_of_parkingspots) {
         List<CarDto> curent_cars=findAllCars();
         return number_of_parkingspots-curent_cars.size();
+    }
+
+    public ArrayList<CarDto> sorteaza_masinile_dupa_owner(ArrayList<CarDto> cars) {
+       //Am comentat pentru ca aveam eroare nu stiu de ce
+       // Arrays.sort(cars,CarDto.carDtoComparator);
+        return cars;
+
+
+    }
+    public List<CarDto> gaseste_masina_dupa_nr_inmatriculare(String nr_inmatriculare){
+        try {
+            TypedQuery<Car> typedQuery = entityManager.createQuery(
+                    "SELECT c FROM Car c WHERE c.licensePlate=:license_plate", Car.class)
+                    .setParameter("license_plate",nr_inmatriculare);
+
+            List<Car> cars = typedQuery.getResultList();
+
+            return copyCarsToDto(cars);
+        } catch (Exception ex) {
+            throw new EJBException(ex);
+        }
     }
 
 

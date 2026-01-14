@@ -41,8 +41,15 @@ public class Cars extends HttpServlet {
 
             }
             carsBean.deleteCarsByIds(carIds);
-            response.sendRedirect(request.getContextPath()+"/Cars");
+
         }
+
+        String nr_matricol=request.getParameter("search");
+        if(nr_matricol!=null){
+            carsBean.gaseste_masina_dupa_nr_inmatriculare(nr_matricol);
+        }
+        response.sendRedirect(request.getContextPath()+"/Cars");
+
     }
 
 }

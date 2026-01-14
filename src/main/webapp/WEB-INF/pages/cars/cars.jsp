@@ -10,6 +10,8 @@
         <c:if test="${pageContext.request.isUserInRole('WRITE_CARS')}">
         <button class="btn btn-danger" type="submit">Delete Cars</button>
         </c:if>
+
+        </div>
     <div class="container text-center">
         <c:forEach var="car" items="${cars}">
         <div class="row">
@@ -38,10 +40,27 @@
                 <a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditCar?id=${car.id}">Edit Car</a>
                 </c:if>
             </div>
+            <div class="col">
+
+
+    </div>
         </div>
 
         </c:forEach>
+
     </div>
     </form>
+//
     <h5>Free parking spots: ${numberOfFreeParkingSpots}</h5>
+    <div class="search">
+        <form method="POST" action="${pageContext.request.contextPath}/Cars">
+            <input type="text" placeholder="Search Courses"
+                   name="search">
+            <button type="submit">
+                Cauta
+            </button>
+        </form>
+    </div>
+
+
 </t:pageTemplate>

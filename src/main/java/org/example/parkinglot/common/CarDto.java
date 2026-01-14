@@ -1,6 +1,8 @@
 package org.example.parkinglot.common;
+import java.util.*;
+import java.util.Comparator;
 
-public class CarDto {
+public class CarDto implements Comparable<CarDto>{
     Long id;
     String licensePlate;
     String parkingSpot;
@@ -29,4 +31,21 @@ public class CarDto {
         return ownerName;
 
     }
+
+    public int compareTo(CarDto o) {
+
+        return 0;
+    }
+
+    public static Comparator<CarDto> carDtoComparator = new Comparator<CarDto>() {
+
+        public int compare(CarDto car1,CarDto car2) {
+            String car1ownerName = car1.getOwnerName();
+            String car2ownerName = car2.getOwnerName();
+            return car1ownerName.compareTo(car2ownerName);
+            //descending order
+            //return fruitName2.compareTo(fruitName1);
+        }
+
+    };
 }
